@@ -31,11 +31,15 @@ public class ProductServiceImplTest {
     public void getProductTest(){
 
         //given
-        Mockito.when(productDataHandler.getProductEntity("123")) // ProductEntity가 "123"이라는 매개변수를 호출할 때 아래 값으로 Return 
-                .thenReturn(new ProductEntity("123", "pen", 2000, 7000));
+        Mockito.when(productDataHandler.getProductEntity("123")) // ProductEntity가 "123"이라는 매개변수를 호출할 때 아래 값으로 Return
+                .thenReturn(new ProductEntity("123", "pen", 2000, 3000));
 
         ProductDto productDto = productService.getProduct("123");
-        Assertions.assertEquals(productDto.getProductId(), "123");
+        Assertions.assertEquals(productDto.getProductId(), "123"); // getProductID와 지정한 "123"이 동일한지 확인
+        Assertions.assertEquals(productDto.getProductName(), "pen");
+        Assertions.assertEquals(productDto.getProductPrice(), 2000);
+        Assertions.assertEquals(productDto.getProductStock(), 3000);
+
         verify(productDataHandler).getProductEntity("123");
 
     }
@@ -44,6 +48,17 @@ public class ProductServiceImplTest {
     public void saveProductTest(){
 
         //given
+        Mockito.when(productDataHandler.saveProductEntity("123", "pen", 2000, 3000))
+                .thenReturn(new ProductEntity("123", "pen", 2000, 3000));
+
+        ProductDto productDto = productService.saveProduct("123", "pen", 2000, 3000);
+
+        Assertions.assertEquals(productDto.getProductId(), "123");
+        Assertions.assertEquals(productDto.getProductName(), "pen");
+        Assertions.assertEquals(productDto.getProductPrice(), 2000);
+        Assertions.assertEquals(productDto.getProductStock(), 3000);
+
+        verify(productDataHandler).saveProductEntity("123", "pen", 2000, 3000);
 
     }
 
